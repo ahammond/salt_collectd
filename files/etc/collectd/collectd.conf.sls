@@ -49,7 +49,7 @@ LoadPlugin syslog
 #</Plugin>
 
 <Plugin syslog>
-	LogLevel info
+	LogLevel notice
 </Plugin>
 
 ##############################################################################
