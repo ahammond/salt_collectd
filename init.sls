@@ -9,8 +9,11 @@ collectd:
   pkg.installed:
     - require:
       - pkgrepo: deb http://ppa.launchpad.net/vbulax/collectd5/ubuntu precise main
-    
 
-# configure collectd to log via graphite
-#
+/etc/collectd/collectd.conf:
+  file.managed:
+    - source: salt://files/etc/collectd/collectd.conf.sls
+    - template: jinja
+    - require:
+      - pkg: collectd
 
