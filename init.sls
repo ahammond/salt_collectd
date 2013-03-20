@@ -5,6 +5,11 @@ deb http://ppa.launchpad.net/vbulax/collectd5/ubuntu precise main:
     - keyid: 232E4010A519D8D831B81C56C1F5057D013B9839
     - keyserver: keyserver.ubuntu.com
 
+/usr/lib/collectd:
+  file.directory:
+    - require:
+      - pkg: collectd
+
 collectd:
   pkg.installed:
     - require:
@@ -13,6 +18,7 @@ collectd:
     - enable: True
     - require:
       - pkg: collectd
+      - file: /usr/lib/collectd
     - watch:
       - file: /etc/collectd/collectd.conf
 
