@@ -18,7 +18,7 @@ collectd:
 
 /etc/collectd/collectd.conf:
   file.managed:
-    - source: salt://files/etc/collectd/collectd.conf.sls
+    - source: salt://collectd/files/etc/collectd/collectd.conf.sls
     - template: jinja
     - require:
       - pkg: collectd
