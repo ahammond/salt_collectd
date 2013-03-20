@@ -5,7 +5,6 @@ deb http://ppa.launchpad.net/vbulax/collectd5/ubuntu precise main:
     - keyid: 232E4010A519D8D831B81C56C1F5057D013B9839
     - keyserver: keyserver.ubuntu.com
 
-
 collectd:
   pkg.installed:
     - require:
