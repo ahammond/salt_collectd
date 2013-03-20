@@ -1,4 +1,4 @@
-deb http://ppa.launchpad.net/vbulax/collectd5/ubuntu precise main 
+deb http://ppa.launchpad.net/vbulax/collectd5/ubuntu precise main:
   pkgrepo.managed:
     - dist: precise
     - file: /etc/apt/sources.list.d/collectd.list
