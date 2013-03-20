@@ -14,7 +14,7 @@ collectd:
     - require:
       - pkg: collectd
     - watch:
-      - file: /etc/collecd/collectd.conf
+      - file: /etc/collectd/collectd.conf
 
 /etc/collectd/collectd.conf:
   file.managed:
