@@ -9,6 +9,12 @@ collectd:
   pkg.installed:
     - require:
       - pkgrepo: deb http://ppa.launchpad.net/vbulax/collectd5/ubuntu precise main
+  service.running:
+    - enable: True
+    - require:
+      - pkg: collectd
+    - watch:
+      - file: /etc/collecd/collectd.conf
 
 /etc/collectd/collectd.conf:
   file.managed:
