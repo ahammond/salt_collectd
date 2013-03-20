@@ -89,13 +89,13 @@ LoadPlugin interface
 #LoadPlugin ipmi
 #LoadPlugin iptables
 #LoadPlugin ipvs
-LoadPlugin irq
+#LoadPlugin irq
 #LoadPlugin java
 #LoadPlugin libvirt
 LoadPlugin load
 #LoadPlugin madwifi
 #LoadPlugin mbmon
-#LoadPlugin md
+LoadPlugin md
 #LoadPlugin memcachec
 #LoadPlugin memcached
 LoadPlugin memory
@@ -118,15 +118,17 @@ LoadPlugin memory
 #</LoadPlugin>
 #LoadPlugin pinba
 #LoadPlugin ping
+# WRITEME We'll need to use grains for this
 #LoadPlugin postgresql
 #LoadPlugin powerdns
-LoadPlugin processes
+# WRITEME This needs to be configured more elegantly
+#LoadPlugin processes
 #LoadPlugin protocols
 #<LoadPlugin python>
 #	Globals true
 #</LoadPlugin>
 #LoadPlugin rrdcached
-LoadPlugin rrdtool
+#LoadPlugin rrdtool
 #LoadPlugin sensors
 #LoadPlugin serial
 #LoadPlugin snmp
@@ -139,14 +141,14 @@ LoadPlugin swap
 #LoadPlugin thermal
 #LoadPlugin tokyotyrant
 #LoadPlugin unixsock
-#LoadPlugin uptime
+LoadPlugin uptime
 LoadPlugin users
 #LoadPlugin uuid
 #LoadPlugin varnish
-#LoadPlugin vmem
+LoadPlugin vmem
 #LoadPlugin vserver
 #LoadPlugin wireless
-#LoadPlugin write_graphite
+LoadPlugin write_graphite
 #LoadPlugin write_http
 #LoadPlugin write_mongodb
 
@@ -800,8 +802,8 @@ LoadPlugin users
 #	XFF 0.1
 #</Plugin>
 
-<Plugin rrdtool>
-	DataDir "/var/lib/collectd/rrd"
+#<Plugin rrdtool>
+#	DataDir "/var/lib/collectd/rrd"
 #	CacheTimeout 120
 #	CacheFlush 900
 #	WritesPerSecond 30
@@ -814,7 +816,7 @@ LoadPlugin users
 #	RRARows 1200
 #	RRATimespan 158112000
 #	XFF 0.1
-</Plugin>
+#</Plugin>
 
 #<Plugin sensors>
 #	SensorConfigFile "/etc/sensors3.conf"
@@ -871,10 +873,10 @@ LoadPlugin users
 #	</Host>
 #</Plugin>
 
-#<Plugin swap>
+<Plugin swap>
 #	ReportByDevice false
-#	ReportBytes true
-#</Plugin>
+	ReportBytes true
+</Plugin>
 
 #<Plugin table>
 #	<Table "/proc/slabinfo">
@@ -974,21 +976,21 @@ LoadPlugin users
 #	</Instance>
 #</Plugin>
 
-#<Plugin vmem>
-#	Verbose false
-#</Plugin>
+<Plugin vmem>
+	Verbose true
+</Plugin>
 
-#<Plugin write_graphite>
-#	<Carbon>
-#		Host "localhost"
-#		Port "2003"
-#		Prefix "collectd"
-#		Postfix "collectd"
-#		StoreRates false
-#		AlwaysAppendDS false
-#		EscapeCharacter "_"
-#	</Carbon>
-#</Plugin>
+<Plugin write_graphite>
+	<Carbon>
+		Host "{{ graphite_host }}"
+		Port "{{ graphite_port }}"
+#    Prefix "collectd"
+		Postfix "collectd"
+		StoreRates false
+		AlwaysAppendDS false
+#	   EscapeCharacter "_"
+	</Carbon>
+</Plugin>
 
 #<Plugin write_http>
 #	<URL "http://example.com/collectd-post">

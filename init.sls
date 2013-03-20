@@ -20,6 +20,9 @@ collectd:
   file.managed:
     - source: salt://collectd/files/etc/collectd/collectd.conf.sls
     - template: jinja
+    - defaults:
+      graphite_host: graphite01
+      graphite_port: 2003
     - require:
       - pkg: collectd
 
