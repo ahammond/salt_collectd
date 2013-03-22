@@ -119,7 +119,7 @@ LoadPlugin memory
 #LoadPlugin pinba
 #LoadPlugin ping
 # WRITEME We'll need to use grains for this
-{% if database is defined -%}
+{% if databases is defined -%}
 LoadPlugin postgresql
 {% endif -%}
 #LoadPlugin powerdns
@@ -692,10 +692,11 @@ LoadPlugin write_graphite
 #    MaxMissed -1
 #</Plugin>
 
-{% if database is defined -%}
+{% if databases is defined -%}
 # Based on http://www.slideshare.net/markwkm/collectd-postgresql
 # Starting out with just the basic pre-defined queries.
 <Plugin postgresql>
+  {% for database in databases -%}
   <Database {{ database }}>
     Query backends
     Query transactions
@@ -704,6 +705,7 @@ LoadPlugin write_graphite
     Query table_stats
     Query disk_io
   </Database>
+  {% endfor -%}
 </Plugin>
 {% endif -%}
 

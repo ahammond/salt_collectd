@@ -23,9 +23,9 @@ collectd:
     - defaults:
       graphite_host: graphite01
       graphite_port: 2003
-    {% if 'database' in pillar %}
+    {% if 'databases' in pillar %}
     - context:
-      database: {{ pillar['database'] }}
+      databases: {{ pillar['databases'] }}
     {% endif %}
     - require:
       - pkg: collectd
