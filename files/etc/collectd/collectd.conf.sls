@@ -63,7 +63,7 @@ LoadPlugin syslog
 #LoadPlugin apache
 #LoadPlugin apcups
 #LoadPlugin ascent
-LoadPlugin battery
+#LoadPlugin battery
 #LoadPlugin bind
 #LoadPlugin conntrack
 #LoadPlugin contextswitch
