@@ -984,11 +984,9 @@ LoadPlugin write_graphite
     <Carbon>
         Host "{{ graphite_host }}"
         Port "{{ graphite_port }}"
-        Prefix "collectd."
-#        Postfix "collectd"
-        StoreRates false
+        Prefix "collectd"
+        StoreRates true
         AlwaysAppendDS false
-#       EscapeCharacter "_"
     </Carbon>
 </Plugin>
 
