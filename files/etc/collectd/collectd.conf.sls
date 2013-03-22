@@ -119,7 +119,9 @@ LoadPlugin memory
 #LoadPlugin pinba
 #LoadPlugin ping
 # WRITEME We'll need to use grains for this
-#LoadPlugin postgresql
+{% if postgresql -%}
+LoadPlugin postgresql
+{% endif -%}
 #LoadPlugin powerdns
 # WRITEME This needs to be configured more elegantly
 #LoadPlugin processes
@@ -690,67 +692,64 @@ LoadPlugin write_graphite
 #    MaxMissed -1
 #</Plugin>
 
-#<Plugin postgresql>
-#    <Query magic>
-#        Statement "SELECT magic FROM wizard WHERE host = $1;"
-#        Param hostname
-#
-#        <Result>
-#            Type gauge
-#            InstancePrefix "magic"
-#            ValuesFrom "magic"
-#        </Result>
-#    </Query>
-#
-#    <Query rt36_tickets>
-#        Statement "SELECT COUNT(type) AS count, type \
-#                          FROM (SELECT CASE \
-#                                       WHEN resolved = 'epoch' THEN 'open' \
-#                                       ELSE 'resolved' END AS type \
-#                                       FROM tickets) type \
-#                          GROUP BY type;"
-#
-#        <Result>
-#            Type counter
-#            InstancePrefix "rt36_tickets"
-#            InstancesFrom "type"
-#            ValuesFrom "count"
-#        </Result>
-#    </Query>
-#
-#    <Writer sqlstore>
-#        # See /usr/share/doc/collectd-core/examples/postgresql/collectd_insert.sql for details
-#        Statement "SELECT collectd_insert($1, $2, $3, $4, $5, $6, $7, $8, $9);"
-#        StoreRates true
-#    </Writer>
-#
-#    <Database foo>
-#        Host "hostname"
-#        Port 5432
-#        User "username"
-#        Password "secret"
-#
-#        SSLMode "prefer"
-#        KRBSrvName "kerberos_service_name"
-#
-#        Query magic
-#    </Database>
-#
-#    <Database bar>
-#        Interval 60
-#        Service "service_name"
-#
-#        Query backend # predefined
-#        Query rt36_tickets
-#    </Database>
-#
-#    <Database qux>
-#        Service "collectd_store"
-#        Writer sqlstore
-#        # see collectd.conf(5) for details
-#        CommitInterval 30
-#    </Database>
-#</Plugin>
+{% if postgresql -%}
+# Based on http://www.slideshare.net/markwkm/collectd-postgresql
+<Plugin postgresql>
+    <Query magic>
+        Statement "SELECT magic FROM wizard WHERE host = $1;"
+        Param hostname
+
+        <Result>
+            Type gauge
+            InstancePrefix "magic"
+            ValuesFrom "magic"
+        </Result>
+    </Query>
+
+    <Query rt36_tickets>
+        Statement "SELECT COUNT(type) AS count, type \
+                          FROM (SELECT CASE \
+                                       WHEN resolved = 'epoch' THEN 'open' \
+                                       ELSE 'resolved' END AS type \
+                                       FROM tickets) type \
+                          GROUP BY type;"
+
+        <Result>
+            Type counter
+            InstancePrefix "rt36_tickets"
+            InstancesFrom "type"
+            ValuesFrom "count"
+        </Result>
+    </Query>
+
+    <Database foo>
+        Host "hostname"
+        Port 5432
+        User "username"
+        Password "secret"
+
+        SSLMode "prefer"
+        KRBSrvName "kerberos_service_name"
+
+        Query magic
+    </Database>
+
+    <Database bar>
+        Interval 60
+        Service "service_name"
+
+        Query backend # predefined
+        Query rt36_tickets
+    </Database>
+
+    <Database qux>
+        Service "collectd_store"
+        Writer sqlstore
+        # see collectd.conf(5) for details
+        CommitInterval 30
+    </Database>
+</Plugin>
+{% endif -%}
 
 #<Plugin powerdns>
 #    <Server "server_name">
@@ -984,7 +983,7 @@ LoadPlugin write_graphite
     <Carbon>
         Host "{{ graphite_host }}"
         Port "{{ graphite_port }}"
-        Prefix "collectd"
+        Prefix "collectd."
         StoreRates true
         AlwaysAppendDS false
     </Carbon>
