@@ -118,7 +118,6 @@ LoadPlugin memory
 #</LoadPlugin>
 #LoadPlugin pinba
 #LoadPlugin ping
-# WRITEME We'll need to use grains for this
 {% if databases is defined -%}
 LoadPlugin postgresql
 {% endif -%}
