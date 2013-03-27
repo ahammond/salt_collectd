@@ -28,7 +28,7 @@ collectd:
     - databases: {{ grains['databases'] }}
     {% endif %}
     {% if 'loglevel' in grains.get('collectd', {}) %}
-    - loglevel: grains['collectd']['loglevel']
+    - loglevel: {{ grains['collectd']['loglevel'] }}
     {% endif %}
     - require:
       - pkg: collectd
