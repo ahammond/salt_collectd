@@ -702,7 +702,6 @@ LoadPlugin write_graphite
     Query transactions
     Query queries
     Query query_plans
-    Query table_stats
     Query disk_io
   </Database>
   {% endfor -%}
