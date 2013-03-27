@@ -23,8 +23,12 @@ collectd:
     - defaults:
       graphite_host: graphite01
       graphite_port: 2003
+      loglevel: notice
     {% if 'databases' in grains %}
     - databases: {{ grains['databases'] }}
+    {% endif %}
+    {% if 'loglevel' in grains.get('collectd', {}) %}
+    - loglevel: grains['collectd']['loglevel']
     {% endif %}
     - require:
       - pkg: collectd

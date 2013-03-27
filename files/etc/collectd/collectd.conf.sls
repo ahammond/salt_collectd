@@ -40,7 +40,7 @@ FQDNLookup true
 
 LoadPlugin syslog
 <Plugin syslog>
-    LogLevel notice
+    LogLevel {{ loglevel }}
 </Plugin>
 {#
 #LoadPlugin logfile
