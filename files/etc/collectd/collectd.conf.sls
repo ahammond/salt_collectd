@@ -718,7 +718,7 @@ LoadPlugin write_graphite
 # Based on http://www.slideshare.net/markwkm/collectd-postgresql
 # Starting out with just the basic pre-defined queries.
 <Plugin postgresql>
-  {% for database in databases -%}
+{%   for database in databases -%}
   <Database "{{ database }}">
     User collectd
     Query backends
@@ -727,7 +727,7 @@ LoadPlugin write_graphite
     Query query_plans
     Query disk_io
   </Database>
-  {% endfor -%}
+{%   endfor -%}
 </Plugin>
 {% endif -%}
 {#
