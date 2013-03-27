@@ -38,19 +38,19 @@ FQDNLookup true
 # accessed.                                                                  #
 ##############################################################################
 
-#LoadPlugin logfile
 LoadPlugin syslog
-
+<Plugin syslog>
+    LogLevel notice
+</Plugin>
+{#
+#LoadPlugin logfile
 #<Plugin logfile>
 #    LogLevel "info"
 #    File STDOUT
 #    Timestamp true
 #    PrintSeverity false
 #</Plugin>
-
-<Plugin syslog>
-    LogLevel notice
-</Plugin>
+-#}
 
 ##############################################################################
 # LoadPlugin section                                                         #
