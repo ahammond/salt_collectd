@@ -697,6 +697,7 @@ LoadPlugin write_graphite
 <Plugin postgresql>
   {% for database in databases -%}
   <Database {{ database }}>
+    User collectd
     Query backends
     Query transactions
     Query queries
