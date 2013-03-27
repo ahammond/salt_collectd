@@ -719,7 +719,7 @@ LoadPlugin write_graphite
 # Starting out with just the basic pre-defined queries.
 <Plugin postgresql>
   {% for database in databases -%}
-  <Database {{ database }}>
+  <Database "{{ database }}">
     User collectd
     Query backends
     Query transactions
