@@ -58,6 +58,7 @@ LoadPlugin syslog
 # Specify what features to activate.                                         #
 ##############################################################################
 
+{#
 #LoadPlugin aggregation
 #LoadPlugin amqp
 #LoadPlugin apache
@@ -67,38 +68,52 @@ LoadPlugin syslog
 #LoadPlugin bind
 #LoadPlugin conntrack
 #LoadPlugin contextswitch
+-#}
 LoadPlugin cpu
+{#
 #LoadPlugin cpufreq
 #LoadPlugin csv
 #LoadPlugin curl
 #LoadPlugin curl_json
 #LoadPlugin curl_xml
 #LoadPlugin dbi
+-#}
 LoadPlugin df
 LoadPlugin disk
+{#
 #LoadPlugin dns
 #LoadPlugin email
+-#}
 LoadPlugin entropy
+{#
 #LoadPlugin ethstat
 #LoadPlugin exec
 #LoadPlugin filecount
 #LoadPlugin fscache
 #LoadPlugin gmond
 #LoadPlugin hddtemp
+-#}
 LoadPlugin interface
+{#
 #LoadPlugin ipmi
 #LoadPlugin iptables
 #LoadPlugin ipvs
 #LoadPlugin irq
 #LoadPlugin java
 #LoadPlugin libvirt
+-#}
 LoadPlugin load
+{#
 #LoadPlugin madwifi
 #LoadPlugin mbmon
+-#}
 LoadPlugin md
+{#
 #LoadPlugin memcachec
 #LoadPlugin memcached
+-#}
 LoadPlugin memory
+{#
 #LoadPlugin modbus
 #LoadPlugin multimeter
 #LoadPlugin mysql
@@ -118,9 +133,11 @@ LoadPlugin memory
 #</LoadPlugin>
 #LoadPlugin pinba
 #LoadPlugin ping
+-#}
 {% if databases is defined -%}
 LoadPlugin postgresql
 {% endif -%}
+{#
 #LoadPlugin powerdns
 # WRITEME This needs to be configured more elegantly
 #LoadPlugin processes
@@ -133,7 +150,9 @@ LoadPlugin postgresql
 #LoadPlugin sensors
 #LoadPlugin serial
 #LoadPlugin snmp
+-#}
 LoadPlugin swap
+{#
 #LoadPlugin table
 #LoadPlugin tail
 #LoadPlugin tcpconns
@@ -142,16 +161,23 @@ LoadPlugin swap
 #LoadPlugin thermal
 #LoadPlugin tokyotyrant
 #LoadPlugin unixsock
+-#}
 LoadPlugin uptime
 LoadPlugin users
+{#
 #LoadPlugin uuid
 #LoadPlugin varnish
+-#}
 LoadPlugin vmem
+{#
 #LoadPlugin vserver
 #LoadPlugin wireless
+-#}
 LoadPlugin write_graphite
+{#
 #LoadPlugin write_http
 #LoadPlugin write_mongodb
+-#}
 
 ##############################################################################
 # Plugin configuration                                                       #
@@ -159,7 +185,7 @@ LoadPlugin write_graphite
 # In this section configuration stubs for each plugin are provided. A desc-  #
 # ription of those options is available in the collectd.conf(5) manual page. #
 ##############################################################################
-
+{#
 #<Plugin "aggregation">
 #    <Aggregation>
 #        #Host "unspecified"
@@ -345,13 +371,9 @@ LoadPlugin write_graphite
 #        Query "..."
 #    </Database>
 #</Plugin>
+-#}
 
 <Plugin df>
-#    Device "/dev/sda1"
-#    Device "192.168.0.2:/mnt/nfs"
-#    MountPoint "/home"
-#    FSType "ext3"
-
     # ignore rootfs; else, the root file-system would appear twice, causing
     # one of the updates to fail and spam the log
     FSType rootfs
@@ -369,7 +391,7 @@ LoadPlugin write_graphite
 #    ReportReserved false
     ReportInodes true
 </Plugin>
-
+{#
 #<Plugin disk>
 #    Disk "hda"
 #    Disk "/sda[23]/"
@@ -690,6 +712,7 @@ LoadPlugin write_graphite
 #    Device "eth0"
 #    MaxMissed -1
 #</Plugin>
+-#}
 
 {% if databases is defined -%}
 # Based on http://www.slideshare.net/markwkm/collectd-postgresql
@@ -707,7 +730,7 @@ LoadPlugin write_graphite
   {% endfor -%}
 </Plugin>
 {% endif -%}
-
+{#
 #<Plugin powerdns>
 #    <Server "server_name">
 #        Collect "latency"
@@ -828,12 +851,13 @@ LoadPlugin write_graphite
 #        Interval 300
 #    </Host>
 #</Plugin>
+-#}
 
 <Plugin swap>
 #    ReportByDevice false
     ReportBytes true
 </Plugin>
-
+{#
 #<Plugin table>
 #    <Table "/proc/slabinfo">
 #        Instance "slabinfo"
@@ -931,6 +955,7 @@ LoadPlugin write_graphite
 #        CollectCache true
 #    </Instance>
 #</Plugin>
+-#}
 
 <Plugin vmem>
     Verbose true
@@ -945,7 +970,7 @@ LoadPlugin write_graphite
         AlwaysAppendDS false
     </Carbon>
 </Plugin>
-
+{#
 #<Plugin write_http>
 #    <URL "http://example.com/collectd-post">
 #        User "collectd"
@@ -966,6 +991,7 @@ LoadPlugin write_graphite
 #        StoreRates false
 #    <Node>
 #</Plugin>
+-#}
 
 Include "/etc/collectd/filters.conf"
 Include "/etc/collectd/thresholds.conf"
