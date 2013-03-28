@@ -742,7 +742,7 @@ LoadPlugin write_graphite
   <Query "pg_stat_bgwriter">
 {% set columns = ('checkpoints_timed', 'checkpoints_req' ) -%}
 {% set comma = joiner() -%}
-    Statement "SELECT {% for v in columns -%}{{ comma }}{{ v }}{%- endfor %} FROM pg_stat_bgwriter"
+    Statement "SELECT{% for v in columns %}{{ comma() }} {{ v }}{% endfor %} FROM pg_stat_bgwriter"
 {%   for v in columns %}
     <Result>
       Type "pg_stat_bgwriter"
