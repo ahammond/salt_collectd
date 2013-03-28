@@ -718,10 +718,54 @@ LoadPlugin write_graphite
 # Based on http://www.slideshare.net/markwkm/collectd-postgresql
 # Starting out with just the basic pre-defined queries.
 <Plugin postgresql>
+  <Query pg_stat_activity>
+    Statement "SELECT count(*) AS count \
+      , SUM(CASE WHEN state = 'active' THEN 1 ELSE 0 END CASE) AS state_active \
+      , SUM(CASE WHEN state = 'idle' THEN 1 ELSE 0 END CASE) AS state_idle \
+      , SUM(CASE WHEN state = 'idle in transaction' THEN 1 ELSE 0 END CASE) AS state_idle_in_transaction \
+      , SUM(CASE WHEN state = 'idle in transaction aborted' THEN 1 ELSE 0 END CASE) AS state_idle_in_transaction_aborted \
+      , SUM(CASE WHEN state = 'fastpath function call' THEN 1 ELSE 0 END CASE) AS state_fastpath_function_call \
+      , SUM(CASE WHEN state = 'disabled' THEN 1 ELSE 0 END CASE) AS state_disabled \
+      , SUM(CASE WHEN waiting THEN 1 ELSE 0 END CASE) AS waiting \
+      FROM pg_stat_activity WHERE datname = $1"
+    Param database
+    <Result>
+      Type gauge
+      ValuesFrom "count"
+    </Result>
+    <Result>
+      Type gauge
+      ValuesFrom "state_active"
+    </Result>
+    <Result>
+      Type gauge
+      ValuesFrom "state_idle"
+    </Result>
+    <Result>
+      Type gauge
+      ValuesFrom "state_idle_in_transaction"
+    </Result>
+    <Result>
+      Type gauge
+      ValuesFrom "state_idle_in_transaction_aborted"
+    </Result>
+    <Result>
+      Type gauge
+      ValuesFrom "state_fastpath_function_call"
+    </Result>
+    <Result>
+      Type gauge
+      ValuesFrom "state_disabled"
+    </Result>
+    <Result>
+      Type gauge
+      ValuesFrom "waiting"
+    </Result>
+  </query>
 {%   for database in databases -%}
   <Database "{{ database }}">
     User "collectd"
-    Query backends
+    Query pg_stat_activity
     Query transactions
     Query queries
     Query query_plans
