@@ -733,8 +733,7 @@ LoadPlugin write_graphite
                 'state_idle_in_transaction_aborted', 'state_fastpath_function_call',
                 'state_disabled', 'waiting') %}
     <Result>
-      Type "pg_stat_activity"
-      InstancePrefix "{{ v }}"
+      Type gauge
       ValuesFrom "{{ v }}"
     </Result>
 {%   endfor %}
@@ -748,8 +747,7 @@ LoadPlugin write_graphite
     Statement "SELECT{% for v in columns %}{{ comma() }} {{ v }}{% endfor %} FROM pg_stat_bgwriter"
 {%   for v in columns %}
     <Result>
-      Type "pg_stat_bgwriter"
-      InstancePrefix "{{ v }}"
+      Type gauge
       ValuesFrom "{{ v }}"
     </Result>
 {%   endfor %}
