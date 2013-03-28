@@ -720,13 +720,13 @@ LoadPlugin write_graphite
 <Plugin postgresql>
   <Query "pg_stat_activity">
     Statement "SELECT count(*) AS count \
-      , SUM(CASE WHEN state = 'active' THEN 1 ELSE 0 END CASE) AS state_active \
-      , SUM(CASE WHEN state = 'idle' THEN 1 ELSE 0 END CASE) AS state_idle \
-      , SUM(CASE WHEN state = 'idle in transaction' THEN 1 ELSE 0 END CASE) AS state_idle_in_transaction \
-      , SUM(CASE WHEN state = 'idle in transaction aborted' THEN 1 ELSE 0 END CASE) AS state_idle_in_transaction_aborted \
-      , SUM(CASE WHEN state = 'fastpath function call' THEN 1 ELSE 0 END CASE) AS state_fastpath_function_call \
-      , SUM(CASE WHEN state = 'disabled' THEN 1 ELSE 0 END CASE) AS state_disabled \
-      , SUM(CASE WHEN waiting THEN 1 ELSE 0 END CASE) AS waiting \
+      , SUM(CASE WHEN state = 'active' THEN 1 ELSE 0 END) AS state_active \
+      , SUM(CASE WHEN state = 'idle' THEN 1 ELSE 0 END) AS state_idle \
+      , SUM(CASE WHEN state = 'idle in transaction' THEN 1 ELSE 0 END) AS state_idle_in_transaction \
+      , SUM(CASE WHEN state = 'idle in transaction aborted' THEN 1 ELSE 0 END) AS state_idle_in_transaction_aborted \
+      , SUM(CASE WHEN state = 'fastpath function call' THEN 1 ELSE 0 END) AS state_fastpath_function_call \
+      , SUM(CASE WHEN state = 'disabled' THEN 1 ELSE 0 END) AS state_disabled \
+      , SUM(CASE WHEN waiting THEN 1 ELSE 0 END) AS waiting \
       FROM pg_stat_activity WHERE datname = $1"
     Param database
 {%    for v in ('count', 'state_active', 'state_idle', 'state_idle_in_transaction',
