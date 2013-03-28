@@ -739,6 +739,18 @@ LoadPlugin write_graphite
     </Result>
 {%   endfor %}
   </Query>
+  <Query "pg_stat_bgwriter">
+{% set columns = ('checkpoints_timed', 'checkpoints_req' ) -%}
+{% set comma = joiner() -%}
+    Statement "SELECT {% for v in columns -%}{{ comma }}{{ v }}{%- endfor %} FROM pg_stat_bgwriter"
+{%   for v in columns %}
+    <Result>
+      Type "pg_stat_bgwriter"
+      InstancePrefix "{{ v }}"
+      ValuesFrom "{{ v }}"
+    </Result>
+{%   endfor %}
+  </Query>
 {%   for database in databases %}
   <Database "{{ database }}">
     User "collectd"
