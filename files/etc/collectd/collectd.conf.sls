@@ -729,18 +729,15 @@ LoadPlugin write_graphite
       , SUM(CASE WHEN waiting THEN 1 ELSE 0 END CASE) AS waiting \
       FROM pg_stat_activity WHERE datname = $1"
     Param database
-{% for v in (
-  'count', state_active', 'state_idle', 'state_idle_in_transaction',
-  'state_idle_in_transaction_aborted', 'state_fastpath_function_call',
-  'state_disabled', 'waiting') %}
+{% for v in ['count', state_active', 'state_idle', 'state_idle_in_transaction', 'state_idle_in_transaction_aborted', 'state_fastpath_function_call', 'state_disabled', 'waiting'] %}
     <Result>
       Type "pg_stat_activity"
       InstancePrefix "{{ v }}"
       ValuesFrom "{{ v }}"
     </Result>
-{% endfor %-}
+{% endfor %}
   </Query>
-{%   for database in databases -%}
+{%   for database in databases %}
   <Database "{{ database }}">
     User "collectd"
     Query "pg_stat_activity"
@@ -749,7 +746,7 @@ LoadPlugin write_graphite
     Query query_plans
     Query disk_io
   </Database>
-{%   endfor -%}
+{%   endfor %}
 </Plugin>
 {% endif -%}
 {#
