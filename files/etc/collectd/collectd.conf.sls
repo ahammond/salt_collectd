@@ -729,46 +729,16 @@ LoadPlugin write_graphite
       , SUM(CASE WHEN waiting THEN 1 ELSE 0 END CASE) AS waiting \
       FROM pg_stat_activity WHERE datname = $1"
     Param database
+{% for v in (
+  'count', state_active', 'state_idle', 'state_idle_in_transaction',
+  'state_idle_in_transaction_aborted', 'state_fastpath_function_call',
+  'state_disabled', 'waiting') %}
     <Result>
-      Type "count"
-      InstancePrefix "pg_stat_activity"
-      ValuesFrom "count"
+      Type "pg_stat_activity"
+      InstancePrefix "{{ v }}"
+      ValuesFrom "{{ v }}"
     </Result>
-    <Result>
-      Type "state_active"
-      InstancePrefix "pg_stat_activity"
-      ValuesFrom "state_active"
-    </Result>
-    <Result>
-      Type "state_idle"
-      InstancePrefix "pg_stat_activity"
-      ValuesFrom "state_idle"
-    </Result>
-    <Result>
-      Type "state_idle_in_transaction"
-      InstancePrefix "pg_stat_activity"
-      ValuesFrom "state_idle_in_transaction"
-    </Result>
-    <Result>
-      Type "state_idle_in_transaction_aborted"
-      InstancePrefix "pg_stat_activity"
-      ValuesFrom "state_idle_in_transaction_aborted"
-    </Result>
-    <Result>
-      Type "state_fastpath_function_call"
-      InstancePrefix "pg_stat_activity"
-      ValuesFrom "state_fastpath_function_call"
-    </Result>
-    <Result>
-      Type "state_disabled"
-      InstancePrefix "pg_stat_activity"
-      ValuesFrom "state_disabled"
-    </Result>
-    <Result>
-      Type "waiting"
-      InstancePrefix "pg_stat_activity"
-      ValuesFrom "waiting"
-    </Result>
+{% endfor %-}
   </Query>
 {%   for database in databases -%}
   <Database "{{ database }}">
