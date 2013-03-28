@@ -730,35 +730,43 @@ LoadPlugin write_graphite
       FROM pg_stat_activity WHERE datname = $1"
     Param database
     <Result>
-      Type gauge
+      Type "count"
+      InstancePrefix "pg_stat_activity"
       ValuesFrom "count"
     </Result>
     <Result>
-      Type gauge
+      Type "state_active"
+      InstancePrefix "pg_stat_activity"
       ValuesFrom "state_active"
     </Result>
     <Result>
-      Type gauge
+      Type "state_idle"
+      InstancePrefix "pg_stat_activity"
       ValuesFrom "state_idle"
     </Result>
     <Result>
-      Type gauge
+      Type "state_idle_in_transaction"
+      InstancePrefix "pg_stat_activity"
       ValuesFrom "state_idle_in_transaction"
     </Result>
     <Result>
-      Type gauge
+      Type "state_idle_in_transaction_aborted"
+      InstancePrefix "pg_stat_activity"
       ValuesFrom "state_idle_in_transaction_aborted"
     </Result>
     <Result>
-      Type gauge
+      Type "state_fastpath_function_call"
+      InstancePrefix "pg_stat_activity"
       ValuesFrom "state_fastpath_function_call"
     </Result>
     <Result>
-      Type gauge
+      Type "state_disabled"
+      InstancePrefix "pg_stat_activity"
       ValuesFrom "state_disabled"
     </Result>
     <Result>
-      Type gauge
+      Type "waiting"
+      InstancePrefix "pg_stat_activity"
       ValuesFrom "waiting"
     </Result>
   </Query>
