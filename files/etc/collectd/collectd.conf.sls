@@ -718,7 +718,7 @@ LoadPlugin write_graphite
 # Based on http://www.slideshare.net/markwkm/collectd-postgresql
 # Starting out with just the basic pre-defined queries.
 <Plugin postgresql>
-  <Query pg_stat_activity>
+  <Query "pg_stat_activity">
     Statement "SELECT count(*) AS count \
       , SUM(CASE WHEN state = 'active' THEN 1 ELSE 0 END CASE) AS state_active \
       , SUM(CASE WHEN state = 'idle' THEN 1 ELSE 0 END CASE) AS state_idle \
@@ -765,7 +765,7 @@ LoadPlugin write_graphite
 {%   for database in databases -%}
   <Database "{{ database }}">
     User "collectd"
-    Query pg_stat_activity
+    Query "pg_stat_activity"
     Query transactions
     Query queries
     Query query_plans
