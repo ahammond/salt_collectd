@@ -761,7 +761,7 @@ LoadPlugin write_graphite
       Type gauge
       ValuesFrom "waiting"
     </Result>
-  </query>
+  </Query>
 {%   for database in databases -%}
   <Database "{{ database }}">
     User "collectd"
