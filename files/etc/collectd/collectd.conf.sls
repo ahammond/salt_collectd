@@ -747,7 +747,7 @@ LoadPlugin write_graphite
     Statement "SELECT{% for v in columns %}{{ comma() }} {{ v }}{% endfor %} FROM pg_stat_bgwriter"
 {%   for v in columns %}
     <Result>
-      Type gauge
+      Type counter
       ValuesFrom "{{ v }}"
     </Result>
 {%   endfor %}
