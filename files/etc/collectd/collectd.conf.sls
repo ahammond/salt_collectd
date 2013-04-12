@@ -88,7 +88,9 @@ LoadPlugin entropy
 {#
 #LoadPlugin ethstat
 #LoadPlugin exec
-#LoadPlugin filecount
+-#}
+LoadPlugin filecount
+{#
 #LoadPlugin fscache
 #LoadPlugin gmond
 #LoadPlugin hddtemp
@@ -434,7 +436,17 @@ LoadPlugin write_graphite
 #        IncludeHidden false
 #    </Directory>
 #</Plugin>
+-#}
 
+<Plugin filecount>
+    <Directory "/nutricate/production/trans/grave">
+        Instance "grave"
+        Recursive false
+        IncludeHidden false
+    </Directory>
+</Plugin>
+
+{#
 #<Plugin gmond>
 #    MCReceiveFrom "239.2.11.71" "8649"
 #
