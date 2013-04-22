@@ -91,7 +91,7 @@ LoadPlugin entropy
 -#}
 {% if filecount is defined -%}
 LoadPlugin filecount
-{% endif %}
+{%- endif %}
 {#
 #LoadPlugin fscache
 #LoadPlugin gmond
