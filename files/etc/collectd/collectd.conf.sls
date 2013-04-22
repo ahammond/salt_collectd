@@ -442,12 +442,12 @@ LoadPlugin write_graphite
 {% for k, v in filecount.iteritems() -%}
 <Plugin filecount>
     <Directory "{{ k }}">
-        Instance "{{ v[instance] }}"
+        Instance "{{ v['instance'] }}"
         {% if 'recursive' in v -%}
-        Recursive {{ v[recursive] }}
+        Recursive {{ v['recursive'] }}
         {%- endif %}
         {% if 'include_hidden' in v -%}
-        IncludeHidden {{ v[include_hidden] }}
+        IncludeHidden {{ v['include_hidden'] }}
         {%- endif %}
     </Directory>
 </Plugin>
