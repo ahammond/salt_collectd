@@ -89,7 +89,9 @@ LoadPlugin entropy
 #LoadPlugin ethstat
 #LoadPlugin exec
 -#}
+{% if filecount is defined -%}
 LoadPlugin filecount
+{% endif %}
 {#
 #LoadPlugin fscache
 #LoadPlugin gmond
@@ -437,15 +439,15 @@ LoadPlugin write_graphite
 #    </Directory>
 #</Plugin>
 -#}
-
+{% for k, v in filecount.iteritems() -%}
 <Plugin filecount>
-    <Directory "/nutricate/production/trans/grave">
-        Instance "grave"
-        Recursive false
-        IncludeHidden false
+    <Directory "{{ k }}">
+        Instance "{{ v.instance }}"
+        Recursive {{ v.recursive if v.recursive is defined else 'false' }}
+        IncludeHidden {{ v.include_hidden if v.include_hidden is defined else 'false' }}
     </Directory>
 </Plugin>
-
+{%- endfor %}
 {#
 #<Plugin gmond>
 #    MCReceiveFrom "239.2.11.71" "8649"
