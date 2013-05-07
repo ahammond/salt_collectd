@@ -26,7 +26,7 @@ collectd:
     {% if 'databases' in grains %}
     - databases: {{ grains['databases'] }}
     {% endif %}
-    {% if grains.get('collectd', {}).get('filecount', {}) %}
+    {% if 'filecount' in grains.get('collectd', {}) %}
     - filecount: {{ grains['collectd']['filecount'] }}
     {% endif %}
     {% if 'loglevel' in grains.get('collectd', {}) %}
