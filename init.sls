@@ -21,7 +21,7 @@ collectd:
     - defaults:
       graphite_host: graphite01
       graphite_port: 2003
-      loglevel: notice
+      loglevel: info
     {% if 'databases' in grains %}
     - databases: {{ grains['databases'] }}
     {% endif %}
