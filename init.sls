@@ -13,9 +13,10 @@ collectd:
     - watch:
       - file: /etc/collectd/collectd.conf
 
-/etc/collectd/collectd.conf:
+{% set collectd_conf = '/etc/collectd/collectd.conf' %}
+{{ collectd_conf }}:
   file.managed:
-    - source: salt://collectd/files/etc/collectd/collectd.conf.sls
+    - source: salt://collectd/files{{ collectd_conf }}
     - template: jinja
     - defaults:
       graphite_host: graphite01
