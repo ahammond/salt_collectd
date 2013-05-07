@@ -737,6 +737,28 @@ LoadPlugin write_graphite
 # Starting out with just the basic pre-defined queries.
 <Plugin postgresql>
   <Query "pg_stat_activity">
+    MaxVersion 90199
+    Statement "SELECT count(*) AS count \
+      , SUM(CASE WHEN SUBSTRING(current_query FROM 1 FOR 1) != '<' AND NOT waiting THEN 1 ELSE 0 END) AS state_active \
+      , SUM(CASE WHEN current_query = '<IDLE>' THEN 1 ELSE 0 END) AS state_idle \
+      , SUM(CASE WHEN current_query = '<IDLE> in transaction' THEN 1 ELSE 0 END) AS state_idle_in_transaction \
+      , SUM(0) AS state_idle_in_transaction_aborted \
+      , SUM(0) AS state_fastpath_function_call \
+      , SUM(0) AS state_disabled \
+      , SUM(CASE WHEN waiting THEN 1 ELSE 0 END) AS waiting \
+      FROM pg_stat_activity WHERE datname = $1"
+    Param database
+{%    for v in ('count', 'state_active', 'state_idle', 'state_idle_in_transaction',
+                'state_idle_in_transaction_aborted', 'state_fastpath_function_call',
+                'state_disabled', 'waiting') %}
+    <Result>
+      Type gauge
+      ValuesFrom "{{ v }}"
+    </Result>
+{%   endfor %}
+  </Query>
+  <Query "pg_stat_activity">
+    MinVersion 90200
     Statement "SELECT count(*) AS count \
       , SUM(CASE WHEN state = 'active' THEN 1 ELSE 0 END) AS state_active \
       , SUM(CASE WHEN state = 'idle' THEN 1 ELSE 0 END) AS state_idle \
