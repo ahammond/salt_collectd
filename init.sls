@@ -1,3 +1,5 @@
+{% set collectd_conf = '/etc/collectd/collectd.conf' %}
+
 collectd_ppa:
   pkgrepo.managed:
     - ppa: vbulax/collectd5
@@ -11,9 +13,8 @@ collectd:
     - require:
       - pkg: collectd
     - watch:
-      - file: /etc/collectd/collectd.conf
+      - file: {{ collectd_conf }}
 
-{% set collectd_conf = '/etc/collectd/collectd.conf' %}
 {{ collectd_conf }}:
   file.managed:
     - source: salt://collectd/files{{ collectd_conf }}
