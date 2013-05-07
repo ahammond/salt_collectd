@@ -1,18 +1,3 @@
-collectd_ppa:
-  pkgrepo.managed:
-    - ppa: vbulax/collectd5
-
-collectd:
-  pkg.installed:
-    - require:
-      - pkgrepo: collectd_ppa
-  service.running:
-    - enable: True
-    - require:
-      - pkg: collectd
-    - watch:
-      - file: /etc/collectd/collectd.conf
-
 {% set collectd_conf = '/etc/collectd/collectd.conf' %}
 {{ collectd_conf }}:
   file.managed:
@@ -31,6 +16,3 @@ collectd:
     {% if 'loglevel' in grains.get('collectd', {}) %}
     - loglevel: {{ grains['collectd']['loglevel'] }}
     {% endif %}
-    - require:
-      - pkg: collectd
-
