@@ -34,4 +34,3 @@ collectd:
     {% endif %}
     - require:
       - pkg: collectd
-
