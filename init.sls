@@ -35,3 +35,19 @@ collectd:
     - require:
       - pkg: collectd
 
+{% for database in grains.get('databases', []) %}
+{%   if 'trans' in database %}
+rolling_window_{{ database }}_schema_grant:
+  module.run:
+    name: postgres.psql_query
+      # PROBLEM: no database selector :(
+      query: GRANT USAGE ON SCHEMA rolling_window TO collectd
+{%     for table in ('rolling_window.maintained_table', 'rolling_window.columns_to_freeze') %}
+rolling_window_{{ database }}_grant_{{ table }}:
+  module.run:
+    name: postgres.psql_query
+      # PROBLEM: no database selector :(
+      query: GRANT SELECT ON {{ table }} TO collectd
+{%     endfor %}
+{%   endif %}
+{% endfor %}
