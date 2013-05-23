@@ -1,4 +1,5 @@
 {% set collectd_conf = '/etc/collectd/collectd.conf' %}
+{% set smartmon = '/srv/collectd/smartmon.sh' %}
 
 collectd_ppa:
   pkgrepo.managed:
@@ -14,6 +15,16 @@ collectd:
       - pkg: collectd
     - watch:
       - file: {{ collectd_conf }}
+
+smartmontools:
+  pkg.installed
+
+{{ smartmon }}:
+  file.managed:
+    - source: salt://collectd/files{{ smartmon }}
+    - mode: 755
+    - require:
+      - pkg: smartmontools
 
 {{ collectd_conf }}:
   file.managed:
@@ -32,5 +43,9 @@ collectd:
     {% if 'loglevel' in grains.get('collectd', {}) %}
     - loglevel: {{ grains['collectd']['loglevel'] }}
     {% endif %}
+    {% if 'smartmon_drives' in grains.get('collectd', {}) %}
+    - smartmon_drives: {{ grains['collectd']['smartmon_drives'] }}
+    {% endif %}
     - require:
       - pkg: collectd
+      - file: {{ smartmon }}
