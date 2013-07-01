@@ -1,5 +1,6 @@
 {% set collectd_conf = '/etc/collectd/collectd.conf' %}
 {% set smartmon = '/srv/collectd/smartmon.sh' %}
+{% set redismon = '/srv/collectd/redis.sh' %}
 
 collectd_ppa:
   pkgrepo.managed:
@@ -26,6 +27,11 @@ smartmontools:
     - require:
       - pkg: smartmontools
 
+{{ redismon }}:
+  file.managed:
+    - source: salt://collectd/files{{ redismon }}
+    - mode: 755
+
 {{ collectd_conf }}:
   file.managed:
     - source: salt://collectd/files{{ collectd_conf }}
@@ -46,6 +52,10 @@ smartmontools:
     {% if 'smartmon_drives' in grains.get('collectd', {}) %}
     - smartmon_drives: {{ grains['collectd']['smartmon_drives'] }}
     {% endif %}
+    {% if 'redis' in grains.get('collectd', {}) %}
+    - redis: {{ grains['collectd']['redis'] }}
+    {% endif %}
     - require:
       - pkg: collectd
       - file: {{ smartmon }}
+      - file: {{ redismon }}
